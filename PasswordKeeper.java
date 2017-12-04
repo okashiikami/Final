@@ -6,65 +6,74 @@ public class PasswordKeeper{
 	
 	
 	public void login(){
-		System.out.println(users.size());
-		System.out.println("Welcome to the Password Keeper.");
-		System.out.println();
-		System.out.println("1. Login\n2. Create Account");
-		Scanner keyboard = new Scanner(System.in);
-		int answer = keyboard.nextInt();
-		
-		if(answer == 1){
-			String existingUser = "";
-			String existingPass = "";
-			SuperUser temp = new SuperUser(existingUser,existingPass);
-			//enter username, use in makesure method
+		boolean loopDisplay = true;
+		while(loopDisplay){
 			System.out.println(users.size());
-			System.out.println("Enter a Username followed by password:");
-			existingUser = keyboard.next();
-			existingPass = keyboard.next();
-			System.out.println(users.size());
+			System.out.println("Welcome to the Password Keeper.");
+			System.out.println();
+			System.out.println("1. Login\n2. Create Account\n3Exit");
+			Scanner keyboard = new Scanner(System.in);
+			int answer = keyboard.nextInt();
 			
-			//TODO: fix contains
-			System.out.println();
-			if(users.contains(temp)){
-				System.out.println("2");
-				if(temp.getPass().equals(existingPass)){
-					System.out.println("Login Successful.");
-					temp.display();
-				}
-			}	
-		}
-		SuperUser temp = null;
-		if(answer == 2){
-			boolean cont = true;
-			String newUser = "";
-			String pass = "";
-			temp = new SuperUser(newUser, pass);
-			System.out.println("Enter a Username:");
-			String trash = keyboard.nextLine();
-			newUser = keyboard.nextLine();
-			System.out.println();
-			while(cont){
-				if(makeSure(newUser) == true){
-					System.out.println("Enter in a Password.\nKeep in mind your" +
-					" password must include at least one:\nlowercase letter.\n" +
-					"uppercase letter.\nspecial character\nnumber\nand be greater" +
-					" than 8 characters, but less than 15.\n");
-					pass = keyboard.nextLine();
-					if(passValid(pass) == true){
-						System.out.println("Login Created!");
-						users.add(temp);
-						cont = false;
+			if(answer == 1){
+				String existingUser = "";
+				String existingPass = "";
+				SuperUser temp = new SuperUser(existingUser,existingPass);
+				//enter username, use in makesure method
+				System.out.println(users.size());
+				System.out.println("Enter a Username followed by password:");
+				existingUser = keyboard.next();
+				existingPass = keyboard.next();
+				System.out.println(users.size());
+				
+				//TODO: fix contains
+				System.out.println();
+				if(users.contains(temp)){
+					System.out.println("2");
+					if(temp.getPass().equals(existingPass)){
+						System.out.println("Login Successful.");
+						temp.display();
 					}
-				}else{
-					System.out.println("Username taken, please select another.");
-				}
+				}	
 			}
-			temp.display();
-			String next = keyboard.nextLine();
+			
+			SuperUser temp = null;
+			if(answer == 2){
+				boolean cont = true;
+				String newUser = "";
+				String pass = "";
+				temp = new SuperUser(newUser, pass);
+				System.out.println("Enter a Username:");
+				String trash = keyboard.nextLine();
+				newUser = keyboard.nextLine();
+				System.out.println();
+				while(cont){
+					if(makeSure(newUser) == true){
+						System.out.println("Enter in a Password.\nKeep in mind your" +
+						" password must include at least one:\nlowercase letter.\n" +
+						"uppercase letter.\nspecial character\nnumber\nand be greater" +
+						" than 8 characters, but less than 15.\n");
+						pass = keyboard.nextLine();
+						if(passValid(pass) == true){
+							System.out.println("Login Created!");
+							users.add(temp);
+							cont = false;
+						}
+					}else{
+						System.out.println("Username taken, please select another.");
+					}
+				}
+				temp.display();
+				String next = keyboard.nextLine();
+			}
+			
+			if(answer == 3){
+				loopDisplay = false;
+				System.out.println("Cya bitch.");
+			}
+			System.out.println(users.size());
 		}
 		
-		System.out.println(users.size());
 	}
 	
 	public boolean makeSure(String user){
