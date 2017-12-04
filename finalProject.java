@@ -26,7 +26,7 @@ public class finalProject{
 		
 		PasswordKeeper program = new PasswordKeeper();
 		program.login();
-		SuperUser test = new SuperUser("fuck", "Ih8app13!");
+		//SuperUser test = new SuperUser("fuck", "Ih8app13!");
 		//test.display();
 		
 	}	

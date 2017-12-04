@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
-public class PasswordKeeper{
-	private ArrayList<SuperUser> users = new ArrayList();
+import java.io.*;
+public class PasswordKeeper implements Serializable{
+	private static ArrayList<SuperUser> users = new ArrayList();
 	
 	
 	public void login(){
 		boolean loopDisplay = true;
 		while(loopDisplay){
-			System.out.println(users.size());
+			//System.out.println(users.size());
 			System.out.println("Welcome to the Password Keeper.");
 			System.out.println();
-			System.out.println("1. Login\n2. Create Account\n3Exit");
+			System.out.println("1. Login\n2. Create Account\n3. Exit");
 			Scanner keyboard = new Scanner(System.in);
 			int answer = keyboard.nextInt();
 			
@@ -19,21 +19,17 @@ public class PasswordKeeper{
 				String existingUser = "";
 				String existingPass = "";
 				SuperUser temp = new SuperUser(existingUser,existingPass);
-				//enter username, use in makesure method
 				System.out.println(users.size());
 				System.out.println("Enter a Username followed by password:");
 				existingUser = keyboard.next();
 				existingPass = keyboard.next();
-				System.out.println(users.size());
-				
-				//TODO: fix contains
+				//System.out.println(users.size());
 				System.out.println();
 				if(users.contains(temp)){
-					System.out.println("2");
-					if(temp.getPass().equals(existingPass)){
-						System.out.println("Login Successful.");
-						temp.display();
-					}
+					get(temp);
+					System.out.println("Welcome Back!\n");
+					loopDisplay = false;
+					temp.display();
 				}	
 			}
 			
@@ -63,15 +59,15 @@ public class PasswordKeeper{
 						System.out.println("Username taken, please select another.");
 					}
 				}
+				save(temp);
 				temp.display();
-				String next = keyboard.nextLine();
 			}
 			
 			if(answer == 3){
 				loopDisplay = false;
-				System.out.println("Cya bitch.");
+				System.out.println("Good-bye");
 			}
-			System.out.println(users.size());
+			//System.out.println(users.size());
 		}
 		
 	}
@@ -108,4 +104,73 @@ public class PasswordKeeper{
             }
             return passes;	
 		}
+		
+		public static void save(SuperUser arr){
+			try{
+				File file = new File("userInformation.dat");
+				FileOutputStream fileOut = new FileOutputStream(file);
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(arr);
+                out.close();
+                fileOut.close();
+			}catch(IOException i){
+				i.printStackTrace();
+			}
+		}
+		public static SuperUser get(SuperUser arr){
+			SuperUser returnList = null;
+			try{
+				FileInputStream fileIn = new FileInputStream("userInformation.dat");
+            	ObjectInputStream in = new ObjectInputStream(fileIn);
+            	returnList = (SuperUser) in.readObject();
+            	in.close();
+            	fileIn.close();
+			}catch(IOException e){
+				e.printStackTrace();
+			}catch(ClassNotFoundException a){
+				a.printStackTrace();
+			}
+			return returnList;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		//In if reading in the arrayList
+//    //Out if writing the arrayList
+//    public static void serial(String action){
+//        try {
+//            File file = new File("userInformation.dat"); 
+//            if (action.equals("out")){
+//                FileOutputStream fileOut = new FileOutputStream(file);
+//                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//                out.writeObject(users);
+//                out.close();
+//                fileOut.close();
+//            }else if (action.equals("in")){
+//                FileInputStream fileIn = new FileInputStream(file);
+//                ObjectInputStream in = new ObjectInputStream(fileIn);
+//                try {
+//                    //HAVE TO PUT THE DATATYPE HERE
+//                    isPrime = (boolean[]) in.readObject();
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//                in.close();
+//                fileIn.close();
+//            }
+//          } catch (IOException i) {
+//             //i.printStackTrace();
+//          } 
+//    }
+		
+		
 	}

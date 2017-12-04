@@ -39,7 +39,12 @@ public class SuperUser{
 		System.out.println();
 		System.out.println("Add,Delete or Logout");
 		
-		//String nextMove = keyboard.next();
+		String next = keyboard.next();
+		if(next.equalsIgnoreCase("add")){
+			add();
+		}else if(next.equalsIgnoreCase("delete")){
+			delete();
+		}
 //		add();
 	}
 	
@@ -60,17 +65,17 @@ public class SuperUser{
 		System.out.println("Which account # would you like to delete?");
 		int userDelete = keyboard.nextInt();
 		info.remove(userDelete - 1);
+		System.out.println("Account removed.");
 	}
 	
-	public void view(){
-		//
-	}
 	public void edit(){
-		//i still need to finish this
+		//take in int value
+		//display toString of LoginInfo var
+		//ask what to change
+		//resave it
 	}
 	public void logout(){
-		//stores all SuperUser data into a RAF,
-		//then brings up login screen again.
+		//
 	}
 	
 	
