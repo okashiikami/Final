@@ -24,9 +24,26 @@ public class finalProject{
 	
 	public static void main(String[] args){
 		
+		ArrayList<SuperUser> users = new ArrayList();
+		SuperUser test = new SuperUser("fuck", "Ih8app13!");
+		
+		users.add(test);
+		
+		SuperUser temp = new SuperUser("fuck", "Ih8app13!");
+		System.out.println("This should be true: " + users.contains(temp)); 
+		
+		
+		
+		
+		
+		
 		PasswordKeeper program = new PasswordKeeper();
 		program.login();
+<<<<<<< HEAD
 		//SuperUser test = new SuperUser("fuck", "Ih8app13!");
+=======
+		
+>>>>>>> 6ac42e405e5083cc7ba181f44df6a71e530f937b
 		//test.display();
 		
 	}	
