@@ -13,8 +13,8 @@ public class SuperUser{
 		userName = name;
 		password = pass;
 		for(int i = 0; i < siteNames.length; i++){
-			LoginInfo temp = new LoginInfo(null, null, siteNames[i]);
-			info.add(temp);
+			LoginInfo loginTemp = new LoginInfo(null, null, siteNames[i]);
+			info.add(loginTemp);
 		}	
 	}
 	

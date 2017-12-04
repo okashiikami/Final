@@ -30,7 +30,7 @@ public class PasswordKeeper{
 				System.out.println("2");
 				if(temp.getPass().equals(existingPass)){
 					System.out.println("Login Successful.");
-					//temp.display();
+					temp.display();
 				}
 			}	
 		}
@@ -60,13 +60,11 @@ public class PasswordKeeper{
 					System.out.println("Username taken, please select another.");
 				}
 			}
-//			temp.display();
-//			String next = keyboard.nextLine();
+			temp.display();
+			String next = keyboard.nextLine();
 		}
 		
 		System.out.println(users.size());
-		//login()
-//		String next = keyboard.nextLine();
 	}
 	
 	public boolean makeSure(String user){
