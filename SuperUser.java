@@ -66,7 +66,7 @@ public class SuperUser{
 		//
 	}
 	public void edit(){
-		//
+		//i still need to finish this
 	}
 	public void logout(){
 		//stores all SuperUser data into a RAF,

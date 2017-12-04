@@ -65,7 +65,7 @@ public class PasswordKeeper{
 		}
 		
 		System.out.println(users.size());
-		temp.display();
+		//login()
 //		String next = keyboard.nextLine();
 	}
 	
