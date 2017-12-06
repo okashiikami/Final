@@ -7,48 +7,77 @@ public class PasswordKeeper implements Serializable{
 	private static Scanner keyboard;
 	
 	public PasswordKeeper(){
-		try{
-			get(users);	
-		}catch(IOException e){
-			System.out.println(e);
-		}catch(ClassNotFoundException a){
-			System.out.println(a);
-		}
+//		try{
+//			get(users);	
+//		}catch(EOFException a){
+//			System.out.println(a);
+//		}catch(IOException b){
+//			System.out.println(b);
+//		}
+//		catch(ClassNotFoundException c){
+//			System.out.println(c);
+//		}
 	}
 	
 	public void login(){
+		try{
+			get(users);	
+		}catch(EOFException a){
+			System.out.println(a);
+		}catch(IOException b){
+			System.out.println(b);
+		}
+		catch(ClassNotFoundException c){
+			System.out.println(c);
+		}
 		boolean loopDisplay = true;
 		while(loopDisplay){
 			//System.out.println(users.size());
-			System.out.println("Welcome to the Password Keeper.");
-			System.out.println();
+			System.out.println("Welcome to the Password Keeper.\n");
+			//System.out.println();
 			System.out.println("1. Login\n2. Create Account\n3. Exit");
 			keyboard = new Scanner(System.in);
+			SuperUser temp;
 			int answer = keyboard.nextInt();
-			
 			if(answer == 1){
 				String existingUser = "";
 				String existingPass = "";
-				SuperUser temp = new SuperUser(existingUser,existingPass);
-				System.out.println(users.size());
+				
+				//System.out.println(users.size());
 				System.out.println("Enter a Username followed by password:");
 				existingUser = keyboard.next();
 				existingPass = keyboard.next();
+				temp = new SuperUser(existingUser,existingPass);
 				//System.out.println(users.size());
 				System.out.println();
 				if(users.contains(temp)){
 					System.out.println("Welcome Back!\n");
 					loopDisplay = false;
 					temp.display();
-				}	
+					try{
+						save(users);	
+					}catch(IOException e){
+						System.out.println(e);
+					}
+					
+				}
+//				try{
+//					save(users);	
+//				}catch(IOException e){
+//					System.out.println(e);
+//				}	
 			}
+//			try{
+//				save(users);
+//			}catch(IOException e){
+//				System.out.println(e);
+//			}
 			
-			SuperUser temp = null;
+			SuperUser tempNew = null;
 			if(answer == 2){
 				boolean cont = true;
 				String newUser = "";
 				String pass = "";
-				temp = new SuperUser(newUser, pass);
 				System.out.println("Enter a Username:");
 				String trash = keyboard.nextLine();
 				newUser = keyboard.nextLine();
@@ -62,36 +91,40 @@ public class PasswordKeeper implements Serializable{
 						pass = keyboard.nextLine();
 						if(passValid(pass) == true){
 							System.out.println("Login Created!");
-							users.add(temp);
+							tempNew = new SuperUser(newUser, pass);
+							users.add(tempNew);
 							cont = false;
 						}
 					}else{
 						System.out.println("Username taken, please select another.");
 					}
 				}
+				tempNew.display();
 				try{
 					save(users);	
 				}catch(IOException e){
 					System.out.println(e);
 				}
-				temp.display();
-				
 			}
 			
 			if(answer == 3){
+				try{
+					save(users);	
+				}catch(IOException e){
+					System.out.println(e);
+				}
+				System.out.println(users.size());
 				loopDisplay = false;
 				System.out.println("Good-bye");
 			}
 			//System.out.println(users.size());
 		}
-		
+		//save(users);
 	}
 	
+	
 	public boolean makeSure(String user){
-		if(!users.contains(user)){
-			return true;
-		}
-		return false;	
+		return (!users.contains(user));	
 	}
 	
 	public boolean passValid(String pass){
@@ -123,12 +156,12 @@ public class PasswordKeeper implements Serializable{
 		public static void save(ArrayList<SuperUser> obj)throws IOException{
 
 			File file = new File("userInformation.dat");
-			FileOutputStream fileOut = new FileOutputStream(file);
-			BufferedOutputStream buffedOut = new BufferedOutputStream(fileOut);
-            ObjectOutputStream out = new ObjectOutputStream(buffedOut);
+			//FileOutputStream fileOut = new FileOutputStream(file);
+			//BufferedOutputStream buffedOut = new BufferedOutputStream(fileOut);
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file, true));
             out.writeObject(obj);
             out.close();
-            fileOut.close();
+            //fileOut.close();
 		}
 		public static ArrayList<SuperUser> get(ArrayList<SuperUser> obj) throws IOException, ClassNotFoundException{
 			FileInputStream fileIn = new FileInputStream("userInformation.dat");

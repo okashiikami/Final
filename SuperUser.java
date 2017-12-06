@@ -46,15 +46,22 @@ public class SuperUser implements Serializable{
 			add();
 		}else if(next.equalsIgnoreCase("delete")){
 			delete();
-		}else if(next.equalsIgnoreCase("logout")){
-			;
-		}else if(Integer.parseInt(next) == (int) Integer.parseInt(next)){
+		}else if(numberCheck(next)){
 			int choice = (int) Integer.parseInt(next) - 1;
 			edit(choice);
+		}else if(next.equalsIgnoreCase("logout")){
+			;
 		}
 		
 	}
-	
+	public boolean numberCheck(String in){
+		try{
+			Integer.parseInt(in);
+		}catch(NumberFormatException e){
+			return false;
+		}
+		return true;
+	}
 	public void add(){
 		System.out.println("What is the website name?:");
 		String trash = keyboard.nextLine();
@@ -85,6 +92,7 @@ public class SuperUser implements Serializable{
 		}catch(InterruptedException e){
 			Thread.currentThread().interrupt();
 		}
+		display();
 	}
 	
 	public void edit(int index){
