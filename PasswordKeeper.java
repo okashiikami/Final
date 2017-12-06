@@ -1,9 +1,20 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Serializable;
 import java.io.*;
 public class PasswordKeeper implements Serializable{
 	private static ArrayList<SuperUser> users = new ArrayList();
+	private static Scanner keyboard;
 	
+	public PasswordKeeper(){
+		try{
+			get(users);	
+		}catch(IOException e){
+			System.out.println(e);
+		}catch(ClassNotFoundException a){
+			System.out.println(a);
+		}
+	}
 	
 	public void login(){
 		boolean loopDisplay = true;
@@ -12,7 +23,7 @@ public class PasswordKeeper implements Serializable{
 			System.out.println("Welcome to the Password Keeper.");
 			System.out.println();
 			System.out.println("1. Login\n2. Create Account\n3. Exit");
-			Scanner keyboard = new Scanner(System.in);
+			keyboard = new Scanner(System.in);
 			int answer = keyboard.nextInt();
 			
 			if(answer == 1){
@@ -26,7 +37,6 @@ public class PasswordKeeper implements Serializable{
 				//System.out.println(users.size());
 				System.out.println();
 				if(users.contains(temp)){
-					get(temp);
 					System.out.println("Welcome Back!\n");
 					loopDisplay = false;
 					temp.display();
@@ -59,8 +69,13 @@ public class PasswordKeeper implements Serializable{
 						System.out.println("Username taken, please select another.");
 					}
 				}
-				save(temp);
+				try{
+					save(users);	
+				}catch(IOException e){
+					System.out.println(e);
+				}
 				temp.display();
+				
 			}
 			
 			if(answer == 3){
@@ -105,31 +120,23 @@ public class PasswordKeeper implements Serializable{
             return passes;	
 		}
 		
-		public static void save(SuperUser arr){
-			try{
-				File file = new File("userInformation.dat");
-				FileOutputStream fileOut = new FileOutputStream(file);
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(arr);
-                out.close();
-                fileOut.close();
-			}catch(IOException i){
-				i.printStackTrace();
-			}
+		public static void save(ArrayList<SuperUser> obj)throws IOException{
+
+			File file = new File("userInformation.dat");
+			FileOutputStream fileOut = new FileOutputStream(file);
+			BufferedOutputStream buffedOut = new BufferedOutputStream(fileOut);
+            ObjectOutputStream out = new ObjectOutputStream(buffedOut);
+            out.writeObject(obj);
+            out.close();
+            fileOut.close();
 		}
-		public static SuperUser get(SuperUser arr){
-			SuperUser returnList = null;
-			try{
-				FileInputStream fileIn = new FileInputStream("userInformation.dat");
-            	ObjectInputStream in = new ObjectInputStream(fileIn);
-            	returnList = (SuperUser) in.readObject();
-            	in.close();
-            	fileIn.close();
-			}catch(IOException e){
-				e.printStackTrace();
-			}catch(ClassNotFoundException a){
-				a.printStackTrace();
-			}
+		public static ArrayList<SuperUser> get(ArrayList<SuperUser> obj) throws IOException, ClassNotFoundException{
+			FileInputStream fileIn = new FileInputStream("userInformation.dat");
+			BufferedInputStream buffedInput = new BufferedInputStream(fileIn);
+            ObjectInputStream in = new ObjectInputStream(buffedInput);
+            ArrayList<SuperUser> returnList = (ArrayList<SuperUser>) in.readObject();
+            in.close();
+            fileIn.close();
 			return returnList;
 		}
 		

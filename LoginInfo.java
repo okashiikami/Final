@@ -1,5 +1,5 @@
-
-public class LoginInfo{
+import java.io.Serializable;
+public class LoginInfo implements Serializable{
 	
 	private String user;// holds username to site
 	private String pass;//holds password for site
@@ -17,7 +17,7 @@ public class LoginInfo{
 	public String getUser(){
 		return user;
 	}
-	public String getPass(){
-		return pass;
+	public String toString(){
+		return "Website: " + site + "\nUsername: " + user + "\nPassword: " + pass;
 	}
 }

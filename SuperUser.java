@@ -1,10 +1,12 @@
 //class to hold usernames
+import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Scanner;
-public class SuperUser{
+public class SuperUser implements Serializable{
 	private String userName;
 	private String password;
-	private Scanner keyboard = new Scanner(System.in);
+	private static Scanner keyboard = new Scanner(System.in);
 	private ArrayList<LoginInfo> info = new ArrayList();
 	String[] siteNames = {"Facebook", "Instagram", "Google", "Yahoo","MiraCosta"};
 	
@@ -13,7 +15,7 @@ public class SuperUser{
 		userName = name;
 		password = pass;
 		for(int i = 0; i < siteNames.length; i++){
-			LoginInfo loginTemp = new LoginInfo(null, null, siteNames[i]);
+			LoginInfo loginTemp = new LoginInfo("", "", siteNames[i]);
 			info.add(loginTemp);
 		}	
 	}
@@ -29,7 +31,7 @@ public class SuperUser{
 		System.out.println();
 		System.out.println("~Main Menu~");
 		System.out.println();
-		System.out.println("Select the application for more information.\n" +
+		System.out.println("Select the application for more information and to edit.\n" +
 		"Type add to add a new application.\nType delete to remove an application.\n");
 		int count = 1;
 		for(LoginInfo i: info){
@@ -44,8 +46,13 @@ public class SuperUser{
 			add();
 		}else if(next.equalsIgnoreCase("delete")){
 			delete();
+		}else if(next.equalsIgnoreCase("logout")){
+			;
+		}else if(Integer.parseInt(next) == (int) Integer.parseInt(next)){
+			int choice = (int) Integer.parseInt(next) - 1;
+			edit(choice);
 		}
-//		add();
+		
 	}
 	
 	public void add(){
@@ -59,6 +66,12 @@ public class SuperUser{
 		LoginInfo adding = new LoginInfo(webUsername, webPass, webName);
 		info.add(adding);
 		System.out.println("Application added!");
+		System.out.println("Returning to menu.");
+		try{
+			TimeUnit.SECONDS.sleep(5);	
+		}catch(InterruptedException e){
+			Thread.currentThread().interrupt();
+		}
 		display();
 	}
 	public void delete(){
@@ -66,20 +79,45 @@ public class SuperUser{
 		int userDelete = keyboard.nextInt();
 		info.remove(userDelete - 1);
 		System.out.println("Account removed.");
+		System.out.println("Returning to menu.");
+		try{
+			TimeUnit.SECONDS.sleep(3);	
+		}catch(InterruptedException e){
+			Thread.currentThread().interrupt();
+		}
 	}
 	
-	public void edit(){
-		//take in int value
-		//display toString of LoginInfo var
-		//ask what to change
-		//resave it
-	}
-	public void logout(){
-		//
-	}
-	
-	
+	public void edit(int index){
+		System.out.println(info.get(index));
+		System.out.println("Would you like to change the information? y/n");
+		String trash = keyboard.nextLine();
+		String yes = keyboard.nextLine();
 		
+		if(String.valueOf(yes.charAt(0)).equalsIgnoreCase("y")){
+			System.out.println("Username?");
+			String username = keyboard.nextLine();
+			System.out.println("Password?");
+			String password = keyboard.nextLine();
+			info.set(index, new LoginInfo(username, password,info.get(index).getSite()));
+			System.out.println("Information Updated!\n");
+			System.out.println(info.get(index));
+			System.out.println("Returning to menu.");
+			try{
+				TimeUnit.SECONDS.sleep(3);	
+			}catch(InterruptedException e){
+				Thread.currentThread().interrupt();
+			}
+			display();
+		}else{
+			System.out.println("Returning to menu.");
+			try{
+				TimeUnit.SECONDS.sleep(3);	
+			}catch(InterruptedException e){
+				Thread.currentThread().interrupt();
+			}
+			display();
+		}	
+	}
 	
 	@Override
 	public int hashCode(){
