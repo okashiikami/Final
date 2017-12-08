@@ -1,4 +1,5 @@
 import java.io.Serializable;
+
 public class LoginInfo implements Serializable{
 	
 	private String user;// holds username to site

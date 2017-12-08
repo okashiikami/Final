@@ -70,8 +70,7 @@ public class SuperUser implements Serializable{
 		String webUsername = keyboard.nextLine();
 		System.out.println("The Password?:");
 		String webPass = keyboard.nextLine();
-		LoginInfo adding = new LoginInfo(webUsername, webPass, webName);
-		info.add(adding);
+		info.add(new LoginInfo(webUsername, webPass, webName));
 		System.out.println("Application added!");
 		System.out.println("Returning to menu.");
 		try{
@@ -108,7 +107,7 @@ public class SuperUser implements Serializable{
 			String password = keyboard.nextLine();
 			info.set(index, new LoginInfo(username, password,info.get(index).getSite()));
 			System.out.println("Information Updated!\n");
-			System.out.println(info.get(index));
+			//System.out.println(info.get(index));
 			System.out.println("Returning to menu.");
 			try{
 				TimeUnit.SECONDS.sleep(3);	
