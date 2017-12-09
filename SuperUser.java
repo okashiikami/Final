@@ -6,25 +6,17 @@ import java.util.Scanner;
 public class SuperUser implements Serializable{
 	private String userName;
 	private String password;
-	private static Scanner keyboard = new Scanner(System.in);
+	private static  Scanner keyboard = new Scanner(System.in);
 	private ArrayList<LoginInfo> info = new ArrayList();
-	String[] siteNames = {"Facebook", "Instagram", "Google", "Yahoo","MiraCosta"};
 	
 	
 	public SuperUser(String name, String pass){
 		userName = name;
-		password = pass;
-		for(int i = 0; i < siteNames.length; i++){
-			LoginInfo loginTemp = new LoginInfo("", "", siteNames[i]);
-			info.add(loginTemp);
-		}	
+		password = pass;	
 	}
 	
 	public String getUser(){
 		return userName;
-	}
-	public String getPass(){
-		return password;
 	}
 	
 	public void display(){
@@ -34,12 +26,17 @@ public class SuperUser implements Serializable{
 		System.out.println("Select the application for more information and to edit.\n" +
 		"Type add to add a new application.\nType delete to remove an application.\n");
 		int count = 1;
-		for(LoginInfo i: info){
+		if(info.size() == 0){
+			System.out.println("You don't have any accounts saved yet!" + 
+			"\nGo and add some!");
+		}else{
+			for(LoginInfo i: info){
 			System.out.println(count + " " + i.getSite());
 			count ++;
+			}
 		}
 		System.out.println();
-		System.out.println("Add,Delete or Logout");
+		System.out.println("Add,Delete or Logout.");
 		
 		String next = keyboard.next();
 		if(next.equalsIgnoreCase("add")){
@@ -62,6 +59,7 @@ public class SuperUser implements Serializable{
 		}
 		return true;
 	}
+	
 	public void add(){
 		System.out.println("What is the website name?:");
 		String trash = keyboard.nextLine();
@@ -74,7 +72,7 @@ public class SuperUser implements Serializable{
 		System.out.println("Application added!");
 		System.out.println("Returning to menu.");
 		try{
-			TimeUnit.SECONDS.sleep(5);	
+			TimeUnit.SECONDS.sleep(3);	
 		}catch(InterruptedException e){
 			Thread.currentThread().interrupt();
 		}
@@ -107,7 +105,6 @@ public class SuperUser implements Serializable{
 			String password = keyboard.nextLine();
 			info.set(index, new LoginInfo(username, password,info.get(index).getSite()));
 			System.out.println("Information Updated!\n");
-			//System.out.println(info.get(index));
 			System.out.println("Returning to menu.");
 			try{
 				TimeUnit.SECONDS.sleep(3);	
@@ -139,5 +136,29 @@ public class SuperUser implements Serializable{
 		}
 		return false;
 	}
+	
+	
+	
+	
+	private class LoginInfo implements Serializable{
 		
+		private String user;// holds username to site
+		private String pass;//holds password for site
+		private String site;//holds site 
+		
+		public LoginInfo(String user, String pass, String site){
+			this.user = user;
+			this.pass = pass;
+			this.site = site;	
+		}
+		public String getSite(){
+			return site;
+		}
+		public String getUser(){
+			return user;
+		}
+		public String toString(){
+			return "Website: " + site + "\nUsername: " + user + "\nPassword: " + pass;
+		}
+	}	
 }
